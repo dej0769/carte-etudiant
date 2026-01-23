@@ -1,0 +1,386 @@
+ body {
+    background-color: #f4f7f9;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    
+}
+.titre{
+    color: blue;
+    text-align: center;
+/*style des formulaires */
+}
+.formulaire{
+    background-color: #FFFFFF;
+}
+
+.form {
+    background-color: #FFFFFF;;
+    padding: 3rem;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: center;
+}
+
+/* --- Conteneur pour chaque groupe (icône, champ, label) --- */
+.form-control {
+    position: relative; /* Indispensable pour positionner les éléments à l'intérieur */
+    margin-bottom: 2rem; /* Espace entre les champs */
+}
+
+/* --- Style de l'icône à l'intérieur du champ --- */
+.form-control i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #555555;; /* Couleur grise par défaut */
+    transition: color 0.3s ease; /* Animation sur la couleur */
+    z-index: 2; /* Pour être sûr qu'elle soit cliquable si besoin */
+}
+
+/* --- Style des champs de saisie (input et textarea) --- */
+.form-control input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem; /* Espace à gauche pour l'icône */
+    border: 1px solid #e9e9e9;;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    color: #333333;
+    background-color: transparent;
+    transition: border-color 0.3s ease;
+}
+
+/* --- Style de l'étiquette (label) --- */
+.form-control label {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 3rem; /* Positionné à droite de l'icône */
+    color: #555555;;
+    background-color: #FFFFFF;; /* Pour masquer la bordure du champ quand elle flotte */
+    padding: 0 5px;
+    transition: all 0.3s ease;
+    pointer-events: none; /* Permet de cliquer "à travers" le label vers l'input */
+}
+
+
+/* --- LA MAGIE DE L'ÉTIQUETTE FLOTTANTE --- */
+/* Cible le label lorsque son input associé est en focus OU qu'il n'est pas vide */
+.form-control input:focus + label,
+.form-control input:not(:placeholder-shown) + label {
+    top: -10px; /* Monte au-dessus du champ */
+    left: 1rem;
+    font-size: 0.8rem;
+    color:  #068740;; /* Change de couleur pour indiquer l'état actif */
+}
+
+/* --- EFFETS AU FOCUS --- */
+/* Change la couleur de la bordure et de l'icône quand on clique dans le champ */
+.form-control input:focus {
+    outline: none;
+    border-color:  #068740;;
+}
+
+.form-control input:focus + label + i, /* Cible l'icône via le label */
+.form-control input:focus ~ i { /* Cible l'icône directement si le label est après */
+    color:  #068740;;
+}
+
+.btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    background-color: #035E42;
+    color: #FFFFFF;;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease
+}
+
+.btn:hover {
+    background-color:  #068740;;
+    transform: translateY(-2px); /* Légère élévation au survol */
+}
+.sous-titre{
+    color: blue;
+    text-align: center;
+    background-color: #FFFFFF;
+}
+
+/* --- Barre de Connexion/Déconnexion --- */
+.topbar {
+    background-color: #6bebe0;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #333;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.user-name { font-size: 0.9rem; margin-right: 15px; }
+.user-role { 
+    background: #5eead4; 
+    color: #1a1a1a; 
+    font-size: 0.7rem; 
+    padding: 2px 8px; 
+    font-weight: bold; 
+    border-radius: 10px;
+}
+
+.logout-btn {
+    color: white;
+    background-color: #ff5555;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.logout-btn:hover { color:rgb(172, 14, 14); }
+
+
+ /* Réinitialisation de base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+header {
+    margin-bottom: 80px;
+}
+
+header h1 {
+    font-size: 3rem;
+    color: #5eead4; /* Couleur turquoise du titre */
+    font-weight: 900;
+}
+
+header h1 span {
+    display: block;
+    color: white;
+}
+
+.subtitle {
+    margin-top: 15px;
+    max-width: 500px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #ccc;
+}
+
+/* Grille du Dashboard */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 colonnes */
+    gap: 60px 40px; /* Espace vertical pour laisser la place aux cercles */
+}
+
+/* Style de base d'une carte */
+.card {
+    position: relative;
+    padding: 40px 30px;
+    border-radius: 4px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.lime { background-color: #bef264; } /* Vert pomme */
+.teal { background-color: #5eead4; } /* Turquoise */
+
+/* Le cercle blanc pour l'icône */
+.icon-circle {
+    position: absolute;
+    top: -40px; /* Sort de la carte */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.icon-circle img {
+    width: 35px;
+}
+
+/* Texte dans les cartes */
+.card h2 {
+    color: #1a1a1a;
+    font-size: 1.4rem;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.card p {
+    color: #333;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+
+/* Responsive pour mobiles */
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 80px;
+    }
+}
+
+
+/* style du formulaire d'ajout*/
+/* resources/css/style.css
+
+} */
+
+.main-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f2f5;
+}
+.formulaire-side {
+    display: flex; /* Force l'image et le formulaire à être côte à côte */
+    width: 1100px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.illustration-side {
+    flex: 1;
+    background-color: #A2D2FF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    text-align: center;
+}
+
+.illustration-side img {
+    max-width: 80%;
+    margin-bottom: 20px;
+}
+
+.illustration-text h2 {
+    color: #1a1a1a;
+    font-size: 1.2rem;
+    margin: 10px 0;
+}
+
+
+
+
+
+
+
+/* On ajoute un côté illustration à gauche dynamiquement en CSS */
+.formulaire::before {
+    content: "";
+    flex: 1;
+    background-color: #A2D2FF;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 80%;
+}
+
+.form-container {
+    flex: 1.2;
+    padding: 40px;
+}
+
+.titre h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: 600;
+}
+
+input[type="text"], 
+input[type="date"], 
+input[type="file"], 
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background-color: #fdfdfd;
+    box-sizing: border-box;
+}
+
+/* Pour mettre certains champs côte à côte */
+.row-custom {
+    display: flex;
+    gap: 20px;
+}
+.row-custom .form-group {
+    flex: 1;
+}
+
+/* Style des inputs comme sur ton image */
+input, select {
+    border: 1px solid #ddd !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+}
+
+.button-submit {
+    width: 100%;
+    padding: 14px;
+    background-color: #00738C;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s;
+}
+
+.button-submit:hover {
+    background-color: #005a6e;
+}
+
