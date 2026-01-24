@@ -19,4 +19,8 @@ class Student extends Model
         'date_naissance', 
         'lieu_naissance',
         ];
+    
+        public function card() {
+    return $this->hasOne(Card::class);
+}
 }

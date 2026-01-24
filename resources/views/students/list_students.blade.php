@@ -50,6 +50,7 @@
                         <th>Filière</th>
                         <th>Niveau</th>
                         <th>Année Académique</th>
+                        <th>QR Code</th>
                         <th>Photo</th>
                     </tr>
                 </thead>
@@ -67,6 +68,23 @@
                         <td>{{ $etudiant->filiere }}</td>
                         <td>{{ $etudiant->niveau }}</td>
                         <td>{{ $etudiant->annee_academique }}</td>
+                        <td class="text-center" style="vertical-align: middle; background-color: #f8f9fa;">
+                            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px;">
+                                
+                                <div style="padding: 4px; background: white; border: 1px solid #dee2e6; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                    {!! QrCode::size(75)->margin(1)->generate($etudiant->ine) !!}
+                                </div>
+
+                                <div style="margin-top: 8px;">
+                                    <code style="color: #333; font-weight: bold; font-size: 0.85rem; letter-spacing: 1px;">
+                                        CARD-{{ $etudiant->ine }}
+                                    </code>
+                                </div>
+                                
+                            </div>
+                        </td>
+
+
                         <td>
                             @if($etudiant->photo)
                                 <img src="{{ asset('uploads/students/' . $etudiant->photo) }}" 
@@ -76,6 +94,7 @@
                                 <span>Pas de photo</span>
                             @endif
                         </td>
+                       
                     </tr>
                     @endforeach
                     <div class="toolbar">

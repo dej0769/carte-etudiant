@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 use Illuminate\Http\Request;
 use App\Models\Student;
@@ -77,7 +78,7 @@ class StudentController extends Controller
     }
     // Mise à jour des informations de l'étudiant
     public function update(Request $request, $id)
-{
+    {
     // 1. Trouver l'étudiant ou renvoyer une erreur 404
     $student = Student::findOrFail($id);
 
@@ -152,5 +153,46 @@ public function destroy($id)
 
     return redirect()->route('students.index')->with('success', 'Étudiant supprimé avec succès.');
 }
-    
+//
+public function generateCard($id)
+{
+    $student = Student::findOrFail($id);
+
+    // On crée une chaîne de caractères avec les infos de l'étudiant
+    $data = "ID: " . $student->id . "\n" .
+            "INE: " . $student->ine . "\n" .
+            "Nom: " . $student->nom . " " . $student->prenom;
+
+    // Génération du QR Code (format SVG par défaut)
+    $qrcode = QrCode::size(120)->generate($data);
+
+    return view('admin.students.carte', compact('student', 'qrcode'));
 }
+
+public function cardManagement()
+    {
+        $statut = request('statut');
+
+        $query = Student::query();
+        if ($statut) {
+            $query->where('status', $statut);
+        }
+        $students = $query->get();
+
+        $stats = [
+            'total'     => Student::count(),
+            'active'    => Student::where('status', 'active')->count(),
+            'suspendue' => Student::where('status', 'suspended')->count(),
+            'expiree'   => Student::where('status', 'expired')->count(),
+        ];
+
+        // On passe 'cards' à la vue car c'est ce que ton @foreach attend
+        return view('cards.index', [
+            'cards'  => $students, 
+            'stats'  => $stats,
+            'statut' => $statut
+        ]);
+    }
+}
+
+

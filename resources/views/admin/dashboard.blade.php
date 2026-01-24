@@ -46,7 +46,7 @@
                 </div>
                 <h2>CARTES NUMÉRIQUES</h2>
                 <p>Génération automatique des QR Codes et numéros de cartes uniques.</p>
-                <a href="cartes.php" class="btn">Générer</a>
+                <a href="{{ route('carte.index') }}" class="btn">Gérer</a>
             </div>
 
             <div class="card teal">

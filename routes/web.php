@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdimController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\CardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,4 +46,10 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/students/modifier/{id}', [StudentController::class, 'edit'])->name('students.edit');// Formulaire de modification d'un étudiant
     Route::put('/students/modifier/{id}', [StudentController::class, 'update'])->name('students.update');// Mise à jour des informations de l'étudiant
     Route::delete('/students/supprimer/{id}', [StudentController::class, 'destroy'])->name('students.destroy');//Suppression d'un étudiant
-    });
+
+    Route::get('/students/carte/{id}', [StudentController::class, 'generateCard'])->name('students.carte');// Génération de la carte d'étudiant
+
+    Route::get('/gestion-cartes', [CardController::class, 'index'])->name('carte.index');
+    Route::post('/cards/{card}/suspend', [CardController::class, 'suspend'])->name('cards.suspend');
+
+});
