@@ -50,6 +50,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/students/carte/{id}', [StudentController::class, 'generateCard'])->name('students.carte');// Génération de la carte d'étudiant
 
     Route::get('/gestion-cartes', [CardController::class, 'index'])->name('carte.index');
+
+    Route::post('/cards/activate/{student}', [CardController::class, 'activate'])->name('cards.activate');
     Route::post('/cards/{card}/suspend', [CardController::class, 'suspend'])->name('cards.suspend');
 
 });

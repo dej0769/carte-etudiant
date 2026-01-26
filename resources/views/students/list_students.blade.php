@@ -6,119 +6,87 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Gestion des étudiants</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @vite('resources/css/style.css')
-    <style>
-    /* La couleur de la ligne quand on clique dessus */
-    .selected-row {
-        background-color: #A2D2FF !important; /* Bleu ciel */
-        color: #003366 !important; /* Texte bleu foncé */
-        transition: 0.2s; /* Petit effet de transition fluide */
-    }
-
-    /* Optionnel : change la couleur au survol de la souris */
-    tr:hover {
-        background-color: #f5f5f5;
-        cursor: pointer;
-    }
-
-    /* Style pour les boutons désactivés au début */
-    .btn-tool.disabled {
-        opacity: 0.5;
-        pointer-events: none; /* Empêche de cliquer tant qu'on n'a pas sélectionné quelqu'un */
-        background-color: #ccc !important;
-    }
-</style>
+    @vite('resources/css/liste.css')
 </head>
 <body>
-    <div class="container-main">
-        <div class="header-table" >
-            <h1><i class="fas fa-users"></i> Liste des Étudiants</h1>
+
+    <div class="search-container">
+        <div class="search-wrapper">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="searchInput" onkeyup="filtrerTableau()" placeholder="Rechercher un étudiant (Nom, INE, Filière...)...">
         </div>
-        @if(count($etudiants) == 0)
-            <p>Aucun étudiant disponible.</p>
-        @else
-        <div class="tableau">
-            <table border="1" class="table">
-                <thead>
-                    <tr>
-                        <th>Sélection</th>
-                        <th>INE</th>
-                        <th>Nom</th>
-                        <th>Prénom</th>
-                        <th>Date de Naissance</th>
-                        <th>Lieu de Naissance</th>
-                        <th>Filière</th>
-                        <th>Niveau</th>
-                        <th>Année Académique</th>
-                        <th>QR Code</th>
-                        <th>Photo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($etudiants as $etudiant)
-                    <tr onclick="selectionnerEtudiant('{{ $etudiant->id }}', this)">
-                        <td style="text-align: center;">
-                        <input type="radio" name="etudiant_radio" id="radio-{{ $etudiant->id }}">
-                        </td>
-                        <td>{{ $etudiant->ine }}</td>
-                        <td>{{ $etudiant->nom }}</td>
-                        <td>{{ $etudiant->prenom }}</td>
-                        <td>{{ $etudiant->date_naissance }}</td>
-                        <td>{{ $etudiant->lieu_naissance }}</td>
-                        <td>{{ $etudiant->filiere }}</td>
-                        <td>{{ $etudiant->niveau }}</td>
-                        <td>{{ $etudiant->annee_academique }}</td>
-                        <td class="text-center" style="vertical-align: middle; background-color: #f8f9fa;">
-                            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px;">
-                                
-                                <div style="padding: 4px; background: white; border: 1px solid #dee2e6; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                                    {!! QrCode::size(75)->margin(1)->generate($etudiant->ine) !!}
-                                </div>
-
-                                <div style="margin-top: 8px;">
-                                    <code style="color: #333; font-weight: bold; font-size: 0.85rem; letter-spacing: 1px;">
-                                        CARD-{{ $etudiant->ine }}
-                                    </code>
-                                </div>
-                                
-                            </div>
-                        </td>
-
-
-                        <td>
-                            @if($etudiant->photo)
-                                <img src="{{ asset('uploads/students/' . $etudiant->photo) }}" 
-                                    alt="Photo de {{ $etudiant->nom }}" 
-                                    style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
-                            @else
-                                <span>Pas de photo</span>
-                            @endif
-                        </td>
-                       
-                    </tr>
-                    @endforeach
-                    <div class="toolbar">
-                        <a href="{{ route('students.create') }}" class="btn-tool add"> <i class="fas fa-plus"></i>Ajouter</a>
-                        
-                        <a href="#" id="btn-modifier" class="btn-tool disabled"> <i class="fas fa-edit"></i>Modifier</a>
-                        <button type="button" 
-                                id="btn-supprimer" 
-                                onclick="confirmerSuppression()" 
-                                data-url="{{ url('admin/students/supprimer') }}" 
-                                class="btn-tool disabled" 
-                                disabled>
-                            <i class="fas fa-trash"></i> Supprimer
-                        </button>
-                    </div>
-                    
-                        
-                </div>
-                </tbody>
-
-            </table>
-        
-            
+        <div class="search-stats">
+            <span id="resultCount">@if(isset($etudiants)) {{ count($etudiants) }} @endif</span> étudiant(s) trouvé(s)
+        </div>
+    </div>
+    <div class="main-wrapper">
+    <div class="list-card">
+        <div class="table-section">
+            <h1 class="list-title"><i class="fas fa-users"></i> Liste des Étudiants</h1>
+            @if(count($etudiants) == 0)
+                <p>Aucun étudiant disponible.</p>
+            @else
+            <div class="table-responsive">
+                <table class="modern-table">
+                    <thead>
+                        <tr>
+                            <th>Sélection</th>
+                            <th>INE</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Date de Naissance</th>
+                            <th>Lieu de Naissance</th>
+                            <th>Filière</th>
+                            <th>Niveau</th>
+                            <th>Année Académique</th>
+                            <th>QR Code</th>
+                            <th>Photo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($etudiants as $etudiant)
+                        <tr onclick="selectionnerEtudiant('{{ $etudiant->id }}', this)">
+                            <td style="text-align: center;">
+                                <input type="radio" name="etudiant_radio" id="radio-{{ $etudiant->id }}">
+                            </td>
+                            <td>{{ $etudiant->ine }}</td>
+                            <td>{{ $etudiant->nom }}</td>
+                            <td>{{ $etudiant->prenom }}</td>
+                            <td>{{ $etudiant->date_naissance }}</td>
+                            <td>{{ $etudiant->lieu_naissance }}</td>
+                            <td>{{ $etudiant->filiere }}</td>
+                            <td>{{ $etudiant->niveau }}</td>
+                            <td>{{ $etudiant->annee_academique }}</td>
+                            <td class="text-center">
+                                {!! QrCode::size(50)->generate($etudiant->ine) !!}
+                            </td>
+                            <td>
+                                @if($etudiant->photo)
+                                    <img src="{{ asset('uploads/students/' . $etudiant->photo) }}" style="width: 40px; height: 40px; border-radius: 5px;">
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
             @endif
+        </div>
+    </div> <div class="action-section">
+        <div class="toolbar-vertical">
+            <a href="{{ route('students.create') }}" class="btn-tool add"> 
+                <i class="fas fa-plus"></i> Ajouter
+            </a>
+            
+            <a href="#" id="btn-modifier" class="btn-tool edit " disabled> 
+                <i class="fas fa-edit"></i> Modifier
+            </a>
+
+            <button type="button" id="btn-supprimer" onclick="confirmerSuppression()" 
+                    data-url="{{ url('admin/students/supprimer') }}" 
+                    class="btn-tool delete" disabled>
+                <i class="fas fa-trash"></i> Supprimer
+            </button>
         </div>
     </div>
     <script>

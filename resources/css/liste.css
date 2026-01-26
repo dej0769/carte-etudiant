@@ -1,0 +1,119 @@
+/* --- 1. MISE EN PAGE (Layout) --- */
+.main-wrapper {
+    display: flex !important;
+    gap: 25px;
+    padding: 20px;
+    align-items: flex-start;
+    background-color: #f4f7f6; /* Fond léger pour contraste */
+}
+
+.list-card {
+    flex: 1;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    min-width: 0; /* Empêche le débordement */
+}
+
+.table-section {
+    padding: 20px;
+}
+
+/* --- 2. TABLEAU (Colonnes larges et lisibles) --- */
+.table-responsive {
+    overflow-x: auto; /* Scroll si trop de colonnes */
+    width: 100%;
+}
+
+.modern-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.modern-table th, 
+.modern-table td {
+    padding: 15px !important;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    white-space: nowrap; /* FORCE LES COLONNES À ÊTRE LARGES */
+    font-size: 14px;
+}
+
+/* Ligne sélectionnée (Bleu ciel) */
+.ligne-selectionnee {
+    background-color: #e3f2fd !important;
+}
+
+/* --- 3. BOUTONS À DROITE (Effet Gris vers Couleur) --- */
+.action-section {
+    width: 180px;
+    flex-shrink: 0;
+}
+
+.toolbar-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn-tool {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+/* BOUTON AJOUTER : Toujours en vert */
+.btn-tool.add {
+    background-color: #00c853 !important;
+    color: white !important;
+}
+
+/* ÉTAT PAR DÉFAUT : Modifier et Supprimer sont GRIS / BLANC */
+.btn-tool.disabled {
+    background-color: #ffffff !important; /* Fond blanc */
+    color: #cccccc !important;           /* Texte gris clair */
+    border: 1px solid #eeeeee !important;
+    box-shadow: none !important;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* ÉTAT ACTIF : Quand on retire la classe 'disabled' via JS */
+
+/* Modifier devient BLEU */
+.btn-tool.edit:not(.disabled) {
+    background-color: #2979ff !important;
+    color: white !important;
+    border-color: #2979ff !important;
+}
+
+/* Supprimer devient ROUGE */
+.btn-tool.delete:not(.disabled) {
+    background-color: #ff1744 !important;
+    color: white !important;
+    border-color: #ff1744 !important;
+}
+
+/* --- 4. RESPONSIVE (Mobile) --- */
+@media (max-width: 900px) {
+    .main-wrapper {
+        flex-direction: column;
+    }
+    .action-section {
+        width: 100%;
+    }
+    .toolbar-vertical {
+        flex-direction: row;
+    }
+    .btn-tool {
+        flex: 1;
+    }
+}
