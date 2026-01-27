@@ -87,6 +87,10 @@
                     class="btn-tool delete" disabled>
                 <i class="fas fa-trash"></i> Supprimer
             </button>
+
+            <a href="{{route('admin.dashboard')}}" class="btn-tool retour">
+                <i class="fas fa-arrow-left"></i> Retour
+            </a>
         </div>
     </div>
     <script>

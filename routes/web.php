@@ -26,15 +26,17 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 
 // Route pour traiter la connexion (POST)
 Route::post('/login', [AuthController::class, 'login']);
-
-// Route pour la déconnexion (POST)
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+;
 
 
 
 // Inscription
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
+
+// Déconnexion
+// Tout en haut du fichier, juste après les "use"
+Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
 // Routes protégées par le middleware d'authentification
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     // Dashboard admin
@@ -52,6 +54,12 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/gestion-cartes', [CardController::class, 'index'])->name('carte.index');
 
     Route::post('/cards/activate/{student}', [CardController::class, 'activate'])->name('cards.activate');
-    Route::post('/cards/{card}/suspend', [CardController::class, 'suspend'])->name('cards.suspend');
+    Route::patch('/cards/{id}/suspend', [CardController::class, 'suspend'])->name('cards.suspend');
+    Route::patch('/cards/{id}/expire', [CardController::class, 'expire'])->name('cards.expire');
+
+    Route::patch('/cards/{id}/reactivate', [App\Http\Controllers\CardController::class, 'reactivate'])->name('cards.reactivate');
+
+    // Accessible via QR Code
+    Route::get('/carte/{numero}', [CardController::class, 'showPublic'])->name('cards.public');
 
 });

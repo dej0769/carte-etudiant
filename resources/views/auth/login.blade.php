@@ -35,6 +35,7 @@
                         
              @csrf       
             </form>
+            
 
             @if ($errors->any())
     <div style="background-color: #fee2e2; color: #b91c1c; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
@@ -52,6 +53,9 @@
     </div>
 @endif
         </div>
+         <p class="sous-titre">
+            Pas de compte ? <a href="{{ route('register') }}" ">S'inscrire</a>
+        </p>
         
     </div>
 </body>
