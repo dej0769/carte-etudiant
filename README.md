@@ -64,13 +64,38 @@ DB_PASSWORD=
 7.**📝 Routes principales:**
     / : Page d'accueil
     /register : Inscription
+
     /login : Connexion
+
     /dashboard : Tableau de bord
+
     /admin/* : Zone administrateur
+
     /admin/students : liste des etudiants
+
     /admin/students/ajouter: nouvel etudiant
+
     /admin/students/modifier{id}: modifier etudiant
+
     /admin/students/supprimer{id}: supprimer etudiant
+
+/students/carte/{id}:generation de carte
+
+/gestion-cartes: gestions des cartes
+
+/cards/activate/{student}: activation  la carte
+
+/cards/{id}/suspend: susprendre  la carte
+
+/cards/{id}/expire: expire la carte
+
+/cards/{id}/reactivate: reactiver la carte
+
+/carte/{numero}: carte
+
+
+
+
 
 
 
