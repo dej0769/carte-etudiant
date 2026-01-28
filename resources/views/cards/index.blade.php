@@ -63,13 +63,22 @@
                 </div>
 
                 @php
-                    $dateExp = $student->card 
-                        ? \Carbon\Carbon::parse($student->card->expiry_date)->format('d/m/Y')
-                        : \Carbon\Carbon::parse($student->created_at)->addYear()->format('d/m/Y');
+                    // Si l'étudiant a une carte, on prend sa date d'expiration réelle.
+                    // Sinon, on simule une date (par exemple +1 an après inscription).
+                    $dateExpValue = $student->card && $student->card->expiry_date 
+                        ? \Carbon\Carbon::parse($student->card->expiry_date)
+                        : \Carbon\Carbon::parse($student->created_at)->addYear();
+
+                    $dateExpFormatted = $dateExpValue->format('d/m/Y');
+                    
+                    // Déterminer si la carte est bientôt expirée (pour mettre en rouge)
+                    $isNearlyExpired = $dateExpValue->isPast() || $dateExpValue->diffInDays(now()) < 30;
                 @endphp
 
                 <div class="expiration-info">
-                    Expire le: <span class="expiry-date">{{ $dateExp }}</span>
+                    Expire le : <span class="expiry-date" style="{{ $isNearlyExpired ? 'color: #ef4444; font-weight: bold;' : '' }}">
+                        {{ $dateExpFormatted }}
+                    </span>
                 </div>
 
                 <div class="card-footer" style="display: flex; gap: 5px; flex-wrap: wrap; align-items: center;">

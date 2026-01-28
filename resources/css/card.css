@@ -117,29 +117,40 @@
             display: flex; gap: 5px; 
             justify-content: center;
         }
-       /* --- MODAL --- */
+      /* Le fond noir transparent qui couvre tout l'écran */
 .modal {
-    display: none; position: fixed; z-index: 10000;
-    left: 0; top: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8); backdrop-filter: blur(4px);
+    display: none; /* Changé en 'flex' par le JS */
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Fond sombre */
+    
+    /* Ces 3 lignes centrent le contenu exactement au milieu */
+    justify-content: center;
+    align-items: center;
 }
 
-.modal-content {
-    margin: 5% auto; width: 500px; position: relative;
+/* Le conteneur qui enveloppe la carte et les boutons */
+.modal-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centre les boutons sous la carte */
+    gap: 20px; /* Espace entre la carte et les boutons */
 }
 
-/* --- CARTE --- */
+/* On s'assure que la carte a des dimensions fixes pour ne pas flotter */
 .id-card-view {
-    width: 500px; height: 300px;
-    background: white; border-radius: 15px;
-    display: flex; overflow: hidden;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    position: relative;
+    width: 500px;
+    height: 300px;
+    background: white;
+    border-radius: 15px;
     display: flex;
     overflow: hidden;
-    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
 }
-
 /* BANDEAU GAUCHE */
 .side-bar {
     width: 38%; background: #003366;
@@ -180,9 +191,232 @@
     height: 75px;
 }
 .qr-zone canvas, .qr-zone img { width: 100% !important; height: 100% !important; }
+/* Conteneur principal de la vue carte */
+.id-card-view {
+    display: flex;
+    width: 500px;
+    height: 300px;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-.modal-footer-btns { margin-top: 20px; text-align: center; }
-.btn-print { background: #2979ff; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+/* Bande bleue à gauche */
+.side-bar {
+    width: 35%;
+    background: #003366; /* Bleu UJKZ */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    text-align: center;
+}
+
+.uni-logo img {
+    width: 60px;
+    margin-bottom: 5px;
+}
+
+.uni-name {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.photo-box {
+    width: 110px;
+    height: 130px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 3px solid white;
+}
+
+.photo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Corps de la carte (Blanc) */
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    height: 100%;
+    padding: 15px 20px;
+}
+
+/* En-tête avec Statut bien aligné */
+.brand-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    border-bottom: 2px solid #003366;
+    padding-bottom: 5px;
+}
+
+.brand-text {
+    font-weight: bold;
+    font-size: 16px;
+    color: #003366;
+}
+
+.status-badge {
+    padding: 3px 10px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+}
+
+/* Sections d'informations */
+.info-section {
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-bottom: 5px;
+}
+
+.info-group label {
+    display: block;
+    font-size: 9px;
+    color: #666;
+    margin-bottom: 1px;
+}
+
+.val-name {
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+}
+
+.val, .val-id {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Zone du bas corrigée */
+.bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+   margin-top: 5px; /* Réduit de 10px à 5px pour remonter le bloc */
+    padding-top: 5px;
+}
+
+.date-group {
+    font-size: 11px;
+}
+
+/* Fix final pour le QR Code */
+.qr-code-container {
+    width: 50px;
+    height: 50px;
+    background: white;
+    border: 1px solid #ddd;
+    padding: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qr-code-container svg {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Boutons en dehors de la carte */
+.modal-actions {
+    margin-top: 20px;
+    text-align: center;
+    
+}
+.btn-close{
+    background: #ef4444; /* rouge */
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 12px;
+}
+.btn-close:hover {
+    background: #dc2626; /* rouge plus foncé au survol */
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+.btn-download{
+    background: blue;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 12px;
+}
+.btn-download:hover {
+    background: #00008b; /* bleu plus foncé au survol */
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Conteneur de la photo */
+.photo-box {
+    width: 110px;
+    height: 130px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden; /* Empêche l'image de déborder pendant le zoom */
+    border: 3px solid white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Image par défaut */
+.photo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease; /* Rend le zoom fluide */
+    cursor: zoom-in; /* Change le curseur en loupe */
+}
+.expiry-date {
+    color: #ef4444;
+}
+
+/* Effet Zoom au passage de la souris */
+.photo-box img:hover {
+    transform: scale(1.4); /* Agrandit l'image de 40% */
+}
+
+@media print {
+    /* Cache les boutons et le fond sombre à l'impression */
+    .modal-actions, .btn-close, .btn-print {
+        display: none !important;
+    }
+    
+    .modal {
+        background: white !important;
+    }
+
+    body * {
+        visibility: hidden; /* Cache tout le reste de la page */
+    }
+
+    #cardModal, #cardModal * {
+        visibility: visible; /* Affiche uniquement la carte */
+    }
+
+    #cardModal {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}
 
 .status-badge.suspended { background: #fef3c7; color: #92400e; } /* Orange clair */
 .status-badge.expired { background: #fee2e2; color: #991b1b; }   /* Rouge clair */

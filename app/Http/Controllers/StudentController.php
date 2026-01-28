@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 use App\Models\Student;
@@ -45,6 +46,22 @@ class StudentController extends Controller
         $request->photo->move(public_path('uploads/students'), $imageName);
         $data['photo'] = $imageName;
     }
+
+    // --- NOUVELLES LOGIQUES AUTOMATIQUES ---
+
+    // 2. Génération du Numéro de Carte (Ex: UJKZ-2026-0001)
+    $anneeActuelle = date('Y');
+    $dernierEtudiant = Student::whereYear('created_at', $anneeActuelle)->latest()->first();
+    $sequence = $dernierEtudiant ? ($dernierEtudiant->id + 1) : 1;
+    $data['card_number'] = "UJKZ-" . $anneeActuelle . "-" . str_pad($sequence, 4, '0', STR_PAD_LEFT);
+
+    // 3. Calcul de la date d'expiration (31 Décembre de l'année en cours)
+    $data['expired_at'] = Carbon::create($anneeActuelle, 12, 31)->format('Y-m-d');
+
+    // 4. Statut par défaut
+    $data['status'] = 'active';
+
+    // ---------------------------------------
 
     // 3. Utilisation d'un bloc Try/Catch pour attraper les erreurs
     try {
@@ -93,7 +110,8 @@ class StudentController extends Controller
         'niveau' => 'required',
         'annee_academique' => 'required',
 
-        'photo' => 'image|mimes:jpeg,png,jpg|max:2048'
+        'photo' => 'image|mimes:jpeg,png,jpg|max:2048',
+        'status' => 'nullable|string|in:active,suspended,expired'
     ]);
 
     $data = $request->all();
@@ -158,13 +176,11 @@ public function generateCard($id)
 {
     $student = Student::findOrFail($id);
 
-    // On crée une chaîne de caractères avec les infos de l'étudiant
-    $data = "ID: " . $student->id . "\n" .
-            "INE: " . $student->ine . "\n" .
-            "Nom: " . $student->nom . " " . $student->prenom;
-
-    // Génération du QR Code (format SVG par défaut)
-    $qrcode = QrCode::size(120)->generate($data);
+    // Au lieu de texte simple, on met l'URL de profil de l'étudiant
+    // Cela permet à un contrôleur de scanner la carte et de vérifier si elle est vraie
+    $urlVerification = route('students.show', $student->id); 
+    
+    $qrcode = QrCode::size(120)->generate($urlVerification);
 
     return view('admin.students.carte', compact('student', 'qrcode'));
 }
