@@ -14,6 +14,7 @@
     <div class="formulaire">
         <div class="form">
             <form class="form-pro" action="{{ route('login') }}" method="post">
+                @csrf
                  <div class="form-control">
                         
                         <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="" require>
@@ -33,7 +34,7 @@
                     
                     <input class="btn" type="submit" value="Se connecter">
                         
-             @csrf       
+                   
             </form>
             
 
